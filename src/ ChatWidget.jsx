@@ -99,12 +99,12 @@ export default function ChatWidget() {
 
     return (
         <div className="cw-scope">
-            {/* 1. TRIGGER BUTTON - Chat open hone par hide ho jayega */}
+            {/* 1. TRIGGER BUTTON -  */}
             {!open && (
                 <button onClick={toggleWidget} className="chat-toggle">
                     <div className="trigger-glow-bg"></div>
 
-                    {/* Nayi Lines jo hover par ayengi */}
+                 
                     <div className="hover-lines">
                         <span className="h-line l-1"></span>
                         <span className="h-line l-2"></span>
@@ -149,7 +149,7 @@ export default function ChatWidget() {
 
                         {/* BODY / MESSAGES */}
                         <div className="transcend-chat-body">
-                            {/* Fixed Welcome Message */}
+                            {/*  Welcome Message */}
                             <div className="msg-row bot">
                                 <div className="avatar bot-avatar"><img src={Logo} alt="T" /></div>
                                 <div className="bubble bot-bubble">
