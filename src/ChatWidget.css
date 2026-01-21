@@ -1,14 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap');
 
-
-body {
-    background-image: url("https://www.shutterstock.com/image-illustration/modern-house-interior-bedroom-dark-260nw-1623009385.jpg");
-    background-repeat: no-repeat;
-    background-size: 100%;
-  
-
-}
-
 .cw-scope {
     --burnt-orange: #C0581C;
     --deep-charcoal: #1A1A1A;
