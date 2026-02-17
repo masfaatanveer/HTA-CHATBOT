@@ -7,7 +7,37 @@
     font-family: "SF Pro Display", Inter, -apple-system, system-ui, sans-serif;
 }
 
-/* --- TRIGGER BUTTON --- */
+/* ═══════════════════════════════════════════════════════════
+   EMBED MODE OVERRIDES
+   When inside iframe, the widget fills the entire iframe.
+   The parent page's embed.js controls position/size.
+   ═══════════════════════════════════════════════════════════ */
+
+.cw-embedded .cw-embed-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.cw-embedded .transcend-chat-card {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 28px;
+}
+
+/* Ensure iframe body has no margins/padding */
+.cw-embedded {
+    width: 100%;
+    height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRIGGER BUTTON (standalone mode only)
+   ═══════════════════════════════════════════════════════════ */
 .chat-toggle {
     position: fixed;
     bottom: 28px;
@@ -51,9 +81,7 @@
     object-fit: contain;
 }
 
-
 /* --- HOVER LINES STYLING --- */
-
 .hover-lines {
     position: absolute;
     top: -10px;
@@ -66,7 +94,7 @@
 
 .h-line {
     position: absolute;
-    background: linear-gradient(to bottom, #22d3ee, #154054); 
+    background: linear-gradient(to bottom, #22d3ee, #154054);
     border-radius: 10px;
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -77,18 +105,14 @@
 .l-2 { width: 3px; height: 10px; transform: rotate(-25deg); top: 5px; left: 15px; }
 .l-3 { width: 3px; height: 10px; transform: rotate(0deg); top: 0px; left: 28px; }
 
-
-.chat-toggle:hover .h-line {
-    opacity: 1;
-}
-
+.chat-toggle:hover .h-line { opacity: 1; }
 .chat-toggle:hover .l-1 { transform: rotate(-45deg) translate(-5px, -5px); }
 .chat-toggle:hover .l-2 { transform: rotate(-25deg) translate(-3px, -8px); }
 .chat-toggle:hover .l-3 { transform: rotate(0deg) translate(2px, -10px); }
 
-
-
-/* --- MAIN CONTAINER --- */
+/* ═══════════════════════════════════════════════════════════
+   MAIN CONTAINER
+   ═══════════════════════════════════════════════════════════ */
 .quikr-chat-container {
     position: fixed;
     bottom: 24px;
@@ -108,15 +132,8 @@
 }
 
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* LUXURY DESIGN LAYERS */
@@ -188,13 +205,7 @@
     background: linear-gradient(135deg, rgb(71, 54, 42) 0%, rgb(79, 59, 45) 40%, rgb(79, 54, 36) 100%);
     border-radius: 28px 28px 0 0;
     backdrop-filter: blur(20px);
-
-
 }
-
-
-
-
 
 .header-shine {
     position: absolute;
@@ -328,9 +339,7 @@
 }
 
 .bot-bubble {
-   
-
-        padding: 11px 14px;
+    padding: 11px 14px;
     background: linear-gradient(135deg, rgba(26, 26, 26, 0.84) 0%, rgba(46, 46, 46, 0.74) 100%);
     border: 1px solid rgba(192, 88, 28, 0.3);
     backdrop-filter: blur(30px) saturate(1.2);
@@ -345,11 +354,10 @@
     border: 1.5px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(30px) saturate(1.2);
     border-radius: 16px 4px 16px 16px;
-    box-shadow: rgba(192, 88, 28, 0.17) 0px 0px 14px, 
-                rgba(0, 0, 0, 0.3) 0px 4px 14px, 
+    box-shadow: rgba(192, 88, 28, 0.17) 0px 0px 14px,
+                rgba(0, 0, 0, 0.3) 0px 4px 14px,
                 rgba(255, 255, 255, 0.1) 0px 1px 2px inset;
 }
-
 
 .bubble-outer {
     background: rgba(46, 46, 46, 0.69);
@@ -476,13 +484,12 @@
     font-weight: 500;
 }
 
-/* --- TYPING BUBBLE ADJUSTMENTS --- */
-
+/* --- TYPING BUBBLE --- */
 .typing-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 60px; 
+    min-width: 60px;
     height: 40px;
     padding: 0 15px !important;
 }
@@ -497,7 +504,7 @@
 .typing-dots span {
     width: 6px;
     height: 6px;
-    background: rgba(255, 255, 255, 0.5); 
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out both;
 }
@@ -509,6 +516,7 @@
     0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
     40% { transform: scale(1); opacity: 1; }
 }
+
 .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -518,21 +526,9 @@
     50% { opacity: 0.8; }
 }
 
-@keyframes cwBounce {
-
-    0%,
-    80%,
-    100% {
-        transform: scale(0);
-    }
-
-    40% {
-        transform: scale(1);
-    }
-}
-
-
-/* --- responsive --- */
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 1024px) {
     .transcend-chat-card {
@@ -566,7 +562,7 @@
 }
 
 @media (max-width: 480px) {
-    .quikr-chat-container {
+    .quikr-chat-container:not(.cw-embed-container) {
         bottom: 15px;
         right: 0;
         left: 0;
@@ -578,7 +574,7 @@
     .transcend-chat-card {
         width: 100%;
         max-width: 100%;
-        height: calc(100vh - 100px); 
+        height: calc(100vh - 100px);
         max-height: 650px;
         border-radius: 24px;
     }
@@ -651,7 +647,7 @@
     .transcend-chat-card {
         height: calc(100vh - 85px);
     }
-    
+
     .title-row h2 {
         font-size: 15px;
     }
@@ -661,7 +657,7 @@
     .transcend-chat-card {
         height: 85vh;
     }
-    
+
     .transcend-chat-header {
         height: 80px;
         padding: 10px;

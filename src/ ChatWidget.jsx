@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, forwardRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { User, X } from 'lucide-react';
 import Logo from './img/logo.jpg';
 import TriggerIcon from './img/imag1.webp';
 import './ChatWidget.css';
 
-// --- UTILITIES (Persistent Session & Logic) ---
+// --- UTILITIES ---
 const generateUUID = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
         const r = Math.random() * 16 | 0;
@@ -32,8 +32,33 @@ const parseResponse = (originalText) => {
     return { text: linesToKeep.join("\n").trim() || cleanText, options: detectedOptions };
 };
 
+// Detect if running inside an iframe (embed mode)
+const isEmbedded = () => {
+    try {
+        // Check URL param OR if we're in an iframe
+        const params = new URLSearchParams(window.location.search);
+        return params.get('embed') === 'true' || window.self !== window.top;
+    } catch (e) {
+        return true; // If we can't access top, we're in a cross-origin iframe
+    }
+};
+
+// Send message to parent window
+const notifyParent = (type, data = {}) => {
+    try {
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type, ...data }, "*");
+        }
+    } catch (e) {
+        // Cross-origin - ignore
+    }
+};
+
 export default function ChatWidget() {
-    const [open, setOpen] = useState(false);
+    const embedded = isEmbedded();
+
+    // In embed mode, widget is always "open" (parent controls visibility)
+    const [open, setOpen] = useState(embedded);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [sessionId, setSessionId] = useState("");
@@ -51,7 +76,30 @@ export default function ChatWidget() {
         let deviceId = localStorage.getItem("chat_device_mac_id") || generateUUID();
         localStorage.setItem("chat_device_mac_id", deviceId);
         setMacId(deviceId);
+
+        // Tell parent we're ready
+        if (embedded) {
+            notifyParent("HTA_CHAT_READY");
+        }
     }, []);
+
+    // Listen for messages from parent (embed mode)
+    useEffect(() => {
+        if (!embedded) return;
+
+        const handleMessage = (event) => {
+            const data = event.data;
+            if (!data || !data.type) return;
+
+            if (data.type === "HTA_CHAT_OPEN") {
+                setOpen(true);
+                setTimeout(() => inputRef.current?.focus(), 200);
+            }
+        };
+
+        window.addEventListener("message", handleMessage);
+        return () => window.removeEventListener("message", handleMessage);
+    }, [embedded]);
 
     useEffect(() => {
         if (open) setTimeout(() => inputRef.current?.focus(), 200);
@@ -64,6 +112,15 @@ export default function ChatWidget() {
     const toggleWidget = () => {
         if (!open && chatLog.length === 0) setActiveTab("home");
         setOpen(!open);
+    };
+
+    const handleClose = () => {
+        if (embedded) {
+            // Tell parent to hide the iframe and show the trigger button
+            notifyParent("HTA_CHAT_CLOSE");
+        } else {
+            setOpen(false);
+        }
     };
 
     const sendMessage = useCallback(async (msgOverride = null) => {
@@ -98,27 +155,25 @@ export default function ChatWidget() {
     }, [message, sessionId, macId, activeTab]);
 
     return (
-        <div className="cw-scope">
-            {/* 1. TRIGGER BUTTON -  */}
-            {!open && (
+        <div className={`cw-scope ${embedded ? 'cw-embedded' : ''}`}>
+            {/* TRIGGER BUTTON — only shown in standalone mode, NOT in iframe */}
+            {!embedded && !open && (
                 <button onClick={toggleWidget} className="chat-toggle">
                     <div className="trigger-glow-bg"></div>
-
-                 
                     <div className="hover-lines">
                         <span className="h-line l-1"></span>
                         <span className="h-line l-2"></span>
                         <span className="h-line l-3"></span>
                     </div>
-
                     <div className="icon-wrapper">
                         <img src={TriggerIcon} alt="Logo" className="q-icon" />
                     </div>
                 </button>
             )}
-            {/* 2. CHAT CONTAINER */}
+
+            {/* CHAT CONTAINER */}
             {open && (
-                <div className="quikr-chat-container">
+                <div className={`quikr-chat-container ${embedded ? 'cw-embed-container' : ''}`}>
                     <div className="transcend-chat-card">
                         <div className="layer-base-blur"></div>
                         <div className="layer-dark-overlay"></div>
@@ -140,16 +195,15 @@ export default function ChatWidget() {
                                     </div>
                                     <p>Home Theater • Automation • Audio Help</p>
                                 </div>
-                                <button onClick={() => setOpen(false)} className="header-close-btn">
+                                <button onClick={handleClose} className="header-close-btn">
                                     <X size={16} color="white" />
                                 </button>
                             </div>
                             <div className="header-separator"></div>
                         </div>
 
-                        {/* BODY / MESSAGES */}
+                        {/* BODY */}
                         <div className="transcend-chat-body">
-                            {/*  Welcome Message */}
                             <div className="msg-row bot">
                                 <div className="avatar bot-avatar"><img src={Logo} alt="T" /></div>
                                 <div className="bubble bot-bubble">
@@ -171,13 +225,11 @@ export default function ChatWidget() {
                                     {chatLog.map((chat, i) => (
                                         <div key={i} className={`msg-group ${chat.sender}`}>
                                             <div className={`msg-row ${chat.sender}`}>
-
                                                 {chat.sender === "bot" && (
                                                     <div className="avatar bot-avatar">
                                                         <img src={Logo} alt="T" />
                                                     </div>
                                                 )}
-
                                                 <div className={`bubble-outer ${chat.sender}`}>
                                                     <div className={`bubble ${chat.sender}-bubble`}>
                                                         {chat.text}
@@ -211,7 +263,7 @@ export default function ChatWidget() {
                             )}
                         </div>
 
-                        {/* FOOTER / INPUT */}
+                        {/* FOOTER */}
                         <div className="transcend-chat-footer">
                             <div className="input-container">
                                 <div className="input-border-glow"></div>
@@ -226,12 +278,13 @@ export default function ChatWidget() {
                                 <button onClick={() => sendMessage()} disabled={!message.trim() || loading} className="send-button">
                                     <div className="send-btn-border"></div>
                                     <div className="send-btn-base-glow"></div>
-                                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none" class="relative z-10 translate-x-[1px]"><path d="M13 1L6 8M13 1L9 13L6 8M13 1L1 5L6 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none" className="relative z-10 translate-x-[1px]">
+                                        <path d="M13 1L6 8M13 1L9 13L6 8M13 1L1 5L6 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
                                 </button>
                             </div>
                             <a href="https://www.quikrai.us/" target="_blank" rel="noopener noreferrer">
-
-                            <div className="powered-by">Powered by Quikr AI</div>
+                                <div className="powered-by">Powered by Quikr AI</div>
                             </a>
                         </div>
                     </div>
