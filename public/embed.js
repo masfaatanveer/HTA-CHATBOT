@@ -63,15 +63,13 @@
       "  height: " + CHAT_HEIGHT + "px;" +
       "  border: none;" +
       "  border-radius: 28px;" +
-      "  overflow: hidden;" +
       "  z-index: " + Z_INDEX + ";" +
       "  box-shadow: 0 24px 70px rgba(0,0,0,0.4), 0 0 42px rgba(192,98,28,0.24);" +
       "  opacity: 0;" +
       "  transform: translateY(20px) scale(0.95);" +
       "  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);" +
       "  pointer-events: none;" +
-      "  background: #1a1a1a;" +
-      "  color-scheme: dark;" +
+      "  background: transparent;" +
       "}" +
       "#hta-chat-frame.hta-open {" +
       "  opacity: 1;" +
@@ -148,21 +146,12 @@
 
   // ─── OPEN / CLOSE ───
   function openChat() {
-    if (!iframe) {
-      createIframe();
-      // First open: iframe needs time to load, but widget auto-opens via embed detection
-      // So we just show the iframe — no postMessage needed on first load
-    } else {
-      // Subsequent opens: iframe already loaded, send message
-      try {
-        iframe.contentWindow.postMessage({ type: "HTA_CHAT_OPEN" }, "*");
-      } catch (e) {
-        // Ignore cross-origin errors
-      }
-    }
+    if (!iframe) createIframe();
     isOpen = true;
     iframe.classList.add("hta-open");
     triggerBtn.classList.add("hta-hidden");
+    // Tell iframe it's been opened
+    iframe.contentWindow.postMessage({ type: "HTA_CHAT_OPEN" }, "*");
   }
 
   function closeChat() {
