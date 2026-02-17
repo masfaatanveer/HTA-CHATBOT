@@ -13,6 +13,25 @@
    The parent page's embed.js controls position/size.
    ═══════════════════════════════════════════════════════════ */
 
+/* Reset everything inside the iframe to prevent inherited styles */
+.cw-embedded,
+.cw-embedded *,
+.cw-embedded *::before,
+.cw-embedded *::after {
+    box-sizing: border-box;
+}
+
+.cw-embedded {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .cw-embedded .cw-embed-container {
     position: fixed;
     top: 0;
@@ -21,18 +40,36 @@
     bottom: 0;
     width: 100% !important;
     height: 100% !important;
+    margin: 0;
+    padding: 0;
 }
 
 .cw-embedded .transcend-chat-card {
     width: 100% !important;
     height: 100% !important;
-    border-radius: 28px;
+    border-radius: 0;
+    animation: none;
 }
 
-/* Ensure iframe body has no margins/padding */
-.cw-embedded {
-    width: 100%;
-    height: 100vh;
+/* In embed mode, the iframe already has border-radius: 28px + overflow: hidden,
+   so the card doesn't need its own border-radius. Layers inherit from card. */
+.cw-embedded .layer-base-blur,
+.cw-embedded .layer-dark-overlay,
+.cw-embedded .layer-radial-depth,
+.cw-embedded .layer-top-gradient,
+.cw-embedded .layer-noise {
+    border-radius: 0;
+}
+
+.cw-embedded .layer-border-shadow {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.cw-embedded .header-bg-gradient,
+.cw-embedded .header-shine {
+    border-radius: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -254,7 +291,7 @@
     font-size: 13px;
     color: white;
     opacity: 0.75;
-    margin-top: 3px;
+    margin: 3px 0 0 0;
 }
 
 /* Header Close (X) */
@@ -433,6 +470,17 @@
     outline: none;
     color: white;
     font-size: 15px;
+    font-family: inherit;
+}
+
+.input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Ensure all interactive elements inherit font */
+.cw-scope button,
+.cw-scope input {
+    font-family: inherit;
 }
 
 /* Send Button */
@@ -527,23 +575,23 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE (standalone mode only — embed mode sizes via iframe)
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 1024px) {
-    .transcend-chat-card {
+    .cw-scope:not(.cw-embedded) .transcend-chat-card {
         width: 380px;
         height: 600px;
     }
 }
 
 @media (max-width: 768px) {
-    .quikr-chat-container {
+    .cw-scope:not(.cw-embedded) .quikr-chat-container {
         bottom: 20px;
         right: 20px;
     }
 
-    .transcend-chat-card {
+    .cw-scope:not(.cw-embedded) .transcend-chat-card {
         width: 350px;
         height: 580px;
     }
@@ -571,7 +619,7 @@
         padding: 0 16px;
     }
 
-    .transcend-chat-card {
+    .cw-scope:not(.cw-embedded) .transcend-chat-card {
         width: 100%;
         max-width: 100%;
         height: calc(100vh - 100px);
@@ -644,7 +692,7 @@
 }
 
 @media (max-width: 360px) {
-    .transcend-chat-card {
+    .cw-scope:not(.cw-embedded) .transcend-chat-card {
         height: calc(100vh - 85px);
     }
 
@@ -654,7 +702,7 @@
 }
 
 @media (max-height: 600px) and (orientation: landscape) {
-    .transcend-chat-card {
+    .cw-scope:not(.cw-embedded) .transcend-chat-card {
         height: 85vh;
     }
 

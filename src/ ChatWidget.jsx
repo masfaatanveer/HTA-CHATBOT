@@ -77,8 +77,10 @@ export default function ChatWidget() {
         localStorage.setItem("chat_device_mac_id", deviceId);
         setMacId(deviceId);
 
-        // Tell parent we're ready
+        // When embedded in iframe, reset body styles so nothing leaks through
         if (embedded) {
+            document.documentElement.style.cssText = "margin:0;padding:0;overflow:hidden;background:transparent;height:100%;";
+            document.body.style.cssText = "margin:0;padding:0;overflow:hidden;background:transparent;height:100%;";
             notifyParent("HTA_CHAT_READY");
         }
     }, []);
