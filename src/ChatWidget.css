@@ -58,9 +58,8 @@
 
 /* Close button — bigger, more visible */
 .cw-embedded .header-close-btn {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px;
+    width: 28px !important;
+    height: 28px !important;
     border: 1.5px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.12);
 }
