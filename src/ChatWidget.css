@@ -7,6 +7,10 @@
     font-family: "SF Pro Display", Inter, -apple-system, system-ui, sans-serif;
 }
 
+body {
+    background-color: black;
+}
+
 /* ═══════════════════════════════════════════════════════════
    EMBED MODE OVERRIDES
    When inside iframe, the widget fills the entire iframe.
