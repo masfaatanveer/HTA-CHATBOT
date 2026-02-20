@@ -180,12 +180,12 @@
 
   // ─── INIT ───
   function init() {
-    if (document.getElementById("hta-chat-trigger")) return; // Already initialized
+    if (document.getElementById("hta-trigger")) return;
     injectStyles();
     createTrigger();
-    // Pre-create iframe so it loads in background (optional, remove for lazy load)
-    // createIframe();
-  }
+    createGreeting();
+    createIframe();
+}
 
   // Run when DOM is ready
   if (document.readyState === "loading") {
