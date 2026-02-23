@@ -87,7 +87,7 @@
       "  pointer-events: auto;" +
       "}" +
 // Mobile responsive
-"@media (max-width: 768px) and (min-width: 481px) {" +
+"@media (max-width: 768px) and (min-width: 601px) {" +
 "  #hta-chat-frame {" +
 "    width: 370px !important;" +
 "    height: 600px !important;" +
@@ -101,30 +101,36 @@
 "    right: 20px !important;" +
 "  }" +
 "}" +
-"@media (max-width: 480px) {" +
+"@media (max-width: 600px) {" +
 "  #hta-chat-frame {" +
-"    bottom: 0 !important;" +
-"    right: 0 !important;" +
-"    left: 0 !important;" +
-"    width: 100vw !important;" +
-"    height: calc(100vh - 70px) !important;" +
-"    max-height: 100vh !important;" +
-"    border-radius: 24px 24px 0 0 !important;" +
+"    width: 92vw !important;" +
+"    height: 78vh !important;" +
+"    bottom: 90px !important;" +
+"    right: 14px !important;" +
+"    border-radius: 28px !important;" +
 "  }" +
 "  #hta-chat-trigger {" +
-"    bottom: 16px !important;" +
-"    right: 16px !important;" +
-"    width: 60px !important;" +
-"    height: 60px !important;" +
+"    width: 54px !important;" +
+"    height: 54px !important;" +
+"    bottom: 18px !important;" +
+"    right: 18px !important;" +
 "  }" +
 "  #hta-chat-trigger img {" +
 "    width: 36px !important;" +
 "    height: 36px !important;" +
 "  }" +
 "}" +
-"@media (max-width: 360px) {" +
+"@media (max-width: 420px) {" +
 "  #hta-chat-frame {" +
-"    height: calc(100vh - 60px) !important;" +
+"    width: 94vw !important;" +
+"    height: 80vh !important;" +
+"    right: 10px !important;" +
+"    bottom: 80px !important;" +
+"  }" +
+"  #hta-chat-trigger {" +
+"    width: 50px !important;" +
+"    height: 50px !important;" +
+"    right: 14px !important;" +
 "  }" +
 "}";
     document.head.appendChild(style);
