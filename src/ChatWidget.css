@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&display=swap');
 
+.cw-scope,
+.cw-scope *,
+.cw-scope *::before,
+.cw-scope *::after {
+    box-sizing: border-box;
+}
+
 .cw-scope {
     --burnt-orange: #C0581C;
     --deep-charcoal: #1A1A1A;
@@ -332,6 +339,7 @@
     align-items: center;
     gap: 12px;
     z-index: 2;
+    min-width: 0;
 }
 
 .header-logo {
@@ -460,6 +468,11 @@
     border-radius: 4px 16px 16px;
     box-shadow: rgba(192, 88, 28, 0.21) 0px 0px 2px, rgba(0, 0, 0, 0.4) 0px 4px 12px, rgba(255, 255, 255, 0.06) 0px 1px 2px inset, rgba(192, 88, 28, 0.07) 0px 0px 20px inset;
     position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .user-bubble {
@@ -471,6 +484,11 @@
     box-shadow: rgba(192, 88, 28, 0.17) 0px 0px 14px,
                 rgba(0, 0, 0, 0.3) 0px 4px 14px,
                 rgba(255, 255, 255, 0.1) 0px 1px 2px inset;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .bubble-outer {
@@ -547,6 +565,7 @@
     outline: none;
     color: white;
     font-size: 15px;
+    min-width: 0;
 }
 
 /* Send Button */
@@ -716,6 +735,10 @@
     }
 
     .transcend-chat-body {
+        min-height: 0;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
         mask-image: linear-gradient(to bottom, transparent 0%, black 20px);
         -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20px);
         padding: 15px;
@@ -723,11 +746,17 @@
 
     .msg-row {
         max-width: 90%;
+        min-width: 0;
     }
 
     .bubble {
         font-size: 14px;
         padding: 10px 12px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        min-width: 0;
+        max-width: 100%;
     }
 
     .chips-container {
@@ -741,6 +770,7 @@
 
     .transcend-chat-footer {
         padding: 12px 15px 20px;
+        flex-shrink: 0;
     }
 
     .input-container {
@@ -799,5 +829,6 @@
     .transcend-chat-header {
         height: 80px;
         padding: 10px;
+        flex-shrink: 0;
     }
 }

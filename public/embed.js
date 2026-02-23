@@ -71,6 +71,8 @@
       "  right: " + CHAT_MARGIN + "px;" +
       "  width: " + CHAT_WIDTH + "px;" +
       "  height: " + CHAT_HEIGHT + "px;" +
+      "  max-height: calc(100vh - 48px);" +
+      "  max-width: calc(100vw - 32px);" +
       "  border: none;" +
       "  border-radius: 28px;" +
       "  z-index: " + Z_INDEX + ";" +
@@ -103,11 +105,13 @@
 "}" +
 "@media (max-width: 600px) {" +
 "  #hta-chat-frame {" +
-"    width: 92vw !important;" +
-"    height: 78vh !important;" +
-"    bottom: 90px !important;" +
-"    right: 14px !important;" +
-"    border-radius: 28px !important;" +
+"    width: calc(100vw - 16px);" +
+"    height: calc(100vh - 80px);" +
+"    max-height: calc(100vh - 80px);" +
+"    bottom: 72px;" +
+"    right: 8px;" +
+"    left: 8px;" +
+"    border-radius: 24px;" +
 "  }" +
 "  #hta-chat-trigger {" +
 "    width: 54px !important;" +
@@ -122,10 +126,13 @@
 "}" +
 "@media (max-width: 420px) {" +
 "  #hta-chat-frame {" +
-"    width: 94vw !important;" +
-"    height: 80vh !important;" +
-"    right: 10px !important;" +
-"    bottom: 80px !important;" +
+"    width: calc(100vw - 12px);" +
+"    height: calc(100vh - 74px);" +
+"    max-height: calc(100vh - 74px);" +
+"    right: 6px;" +
+"    left: 6px;" +
+"    bottom: 68px;" +
+"    border-radius: 22px;" +
 "  }" +
 "  #hta-chat-trigger {" +
 "    width: 50px !important;" +
