@@ -58,9 +58,8 @@
 
 /* Close button — bigger, more visible */
 .cw-embedded .header-close-btn {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px;
+    width: 28px !important;
+    height: 28px !important;
     border: 1.5px solid rgba(255, 255, 255, 0.25);
     background: rgba(255, 255, 255, 0.12);
 }
@@ -103,7 +102,7 @@
 }
 
 .cw-embedded .chips-container {
-    margin-left: 40px;
+    margin-left: 0;
 }
 
 /* Input */
@@ -313,6 +312,8 @@
     inset: 0;
     background: linear-gradient(135deg, rgb(71, 54, 42) 0%, rgb(79, 59, 45) 40%, rgb(79, 54, 36) 100%);
     border-radius: 28px 28px 0 0;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     backdrop-filter: blur(20px);
 }
 
@@ -321,6 +322,8 @@
     inset: 0;
     background: linear-gradient(rgb(109, 90, 79) 0%, rgb(78, 58, 43) 50%);
     border-radius: 28px 28px 0 0;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .header-content {
@@ -387,6 +390,7 @@
 }
 
 .header-separator {
+    display: none;
     margin-top: 10px;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
@@ -428,6 +432,7 @@
 }
 
 .bot-avatar {
+    display: none;
     background: rgba(192, 88, 28, 0.15);
     border: 1px solid rgba(192, 88, 28, 0.35);
     padding: 6px;
@@ -479,7 +484,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-left: 40px;
+    margin-left: 0;
     margin-bottom: 15px;
 }
 
@@ -591,6 +596,11 @@
     color: white;
     opacity: 0.45;
     font-weight: 500;
+}
+.powered-by:hover {
+    opacity: 0.85;
+    color: #C0581C;
+    transition: all 0.3s ease;
 }
 
 /* --- TYPING BUBBLE --- */
@@ -706,6 +716,8 @@
     }
 
     .transcend-chat-body {
+        mask-image: linear-gradient(to bottom, transparent 0%, black 20px);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20px);
         padding: 15px;
     }
 

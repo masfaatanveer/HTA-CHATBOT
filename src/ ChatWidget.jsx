@@ -205,7 +205,7 @@ export default function ChatWidget() {
                         {/* BODY */}
                         <div className="transcend-chat-body">
                             <div className="msg-row bot">
-                                <div className="avatar bot-avatar"><img src={Logo} alt="T" /></div>
+                                {/* <div className="avatar bot-avatar"><img src={Logo} alt="T" /></div> */}
                                 <div className="bubble bot-bubble">
                                     Welcome to Transcend! 🎬<br />
                                     I'm your Theater Assistant. How can I help you create the ultimate cinematic experience at home?

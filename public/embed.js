@@ -41,6 +41,7 @@
       "  justify-content: center;" +
       "  padding: 0;" +
       "  outline: none;" +
+      "  overflow: visible;" +
       "}" +
       "#hta-chat-trigger:hover {" +
       "  transform: scale(1.08);" +
@@ -54,6 +55,15 @@
       "  border-radius: 50%;" +
       "  pointer-events: none;" +
       "}" +
+      "#hta-chat-trigger .hta-hover-lines{position:absolute;top:-10px;left:-10px;width:40px;height:40px;pointer-events:none;z-index:5}" +
+      "#hta-chat-trigger .hta-hline{position:absolute;background:linear-gradient(to bottom,#22d3ee,#154054);border-radius:10px;opacity:0;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);filter:drop-shadow(0 0 5px rgba(60,88,95,0.8))}" +
+      "#hta-chat-trigger .hta-l1{width:3px;height:10px;transform:rotate(-45deg);top:15px;left:5px}" +
+      "#hta-chat-trigger .hta-l2{width:3px;height:10px;transform:rotate(-25deg);top:5px;left:15px}" +
+      "#hta-chat-trigger .hta-l3{width:3px;height:10px;transform:rotate(0deg);top:0px;left:28px}" +
+      "#hta-chat-trigger:hover .hta-hline{opacity:1}" +
+      "#hta-chat-trigger:hover .hta-l1{transform:rotate(-45deg) translate(-5px,-5px)}" +
+      "#hta-chat-trigger:hover .hta-l2{transform:rotate(-25deg) translate(-3px,-8px)}" +
+      "#hta-chat-trigger:hover .hta-l3{transform:rotate(0deg) translate(2px,-10px)}" +
       // Chat iframe
       "#hta-chat-frame {" +
       "  position: fixed;" +
@@ -126,6 +136,12 @@
     };
     triggerBtn.appendChild(triggerIcon);
 
+    // Hover lines
+    var lines = document.createElement("div");
+    lines.className = "hta-hover-lines";
+    lines.innerHTML = '<span class="hta-hline hta-l1"></span><span class="hta-hline hta-l2"></span><span class="hta-hline hta-l3"></span>';
+    triggerBtn.appendChild(lines);
+
     triggerBtn.addEventListener("click", function () {
       openChat();
     });
@@ -140,7 +156,6 @@
     iframe.src = WIDGET_URL + "?embed=true"; // Pass flag so widget knows it's embedded
     iframe.setAttribute("allow", "microphone; clipboard-write");
     iframe.setAttribute("title", "Transcend Chat Assistant");
-    iframe.setAttribute("loading", "lazy");
     document.body.appendChild(iframe);
   }
 
@@ -180,10 +195,9 @@
 
   // ─── INIT ───
   function init() {
-    if (document.getElementById("hta-trigger")) return;
+    if (document.getElementById("hta-chat-trigger")) return;
     injectStyles();
     createTrigger();
-    createGreeting();
     createIframe();
 }
 
