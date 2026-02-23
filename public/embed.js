@@ -86,34 +86,47 @@
       "  transform: translateY(0) scale(1);" +
       "  pointer-events: auto;" +
       "}" +
-      // Mobile responsive
-      "@media (max-width: 480px) {" +
-      "  #hta-chat-frame {" +
-      "    bottom: 0 !important;" +
-      "    right: 0 !important;" +
-      "    left: 0 !important;" +
-      "    width: 100% !important;" +
-      "    height: calc(100vh - 60px) !important;" +
-      "    max-height: 100vh !important;" +
-      "    border-radius: 24px 24px 0 0 !important;" +
-      "  }" +
-      "  #hta-chat-trigger {" +
-      "    bottom: 16px !important;" +
-      "    right: 16px !important;" +
-      "    width: 60px !important;" +
-      "    height: 60px !important;" +
-      "  }" +
-      "  #hta-chat-trigger img {" +
-      "    width: 36px !important;" +
-      "    height: 36px !important;" +
-      "  }" +
-      "}" +
-      "@media (max-width: 768px) and (min-width: 481px) {" +
-      "  #hta-chat-frame {" +
-      "    width: 370px !important;" +
-      "    height: 600px !important;" +
-      "  }" +
-      "}";
+// Mobile responsive
+"@media (max-width: 768px) and (min-width: 481px) {" +
+"  #hta-chat-frame {" +
+"    width: 370px !important;" +
+"    height: 600px !important;" +
+"    bottom: 20px !important;" +
+"    right: 20px !important;" +
+"  }" +
+"  #hta-chat-trigger {" +
+"    width: 64px !important;" +
+"    height: 64px !important;" +
+"    bottom: 20px !important;" +
+"    right: 20px !important;" +
+"  }" +
+"}" +
+"@media (max-width: 480px) {" +
+"  #hta-chat-frame {" +
+"    bottom: 0 !important;" +
+"    right: 0 !important;" +
+"    left: 0 !important;" +
+"    width: 100vw !important;" +
+"    height: calc(100vh - 70px) !important;" +
+"    max-height: 100vh !important;" +
+"    border-radius: 24px 24px 0 0 !important;" +
+"  }" +
+"  #hta-chat-trigger {" +
+"    bottom: 16px !important;" +
+"    right: 16px !important;" +
+"    width: 60px !important;" +
+"    height: 60px !important;" +
+"  }" +
+"  #hta-chat-trigger img {" +
+"    width: 36px !important;" +
+"    height: 36px !important;" +
+"  }" +
+"}" +
+"@media (max-width: 360px) {" +
+"  #hta-chat-frame {" +
+"    height: calc(100vh - 60px) !important;" +
+"  }" +
+"}";
     document.head.appendChild(style);
   }
 

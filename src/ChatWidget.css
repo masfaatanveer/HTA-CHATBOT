@@ -762,6 +762,23 @@
         width: 34px;
         height: 34px;
     }
+    .cw-embedded .transcend-chat-card {
+        border-radius: 24px 24px 0 0 !important;
+    }
+    
+    .cw-embedded .layer-base-blur,
+    .cw-embedded .layer-dark-overlay,
+    .cw-embedded .layer-radial-depth,
+    .cw-embedded .layer-top-gradient,
+    .cw-embedded .layer-border-shadow,
+    .cw-embedded .layer-noise {
+        border-radius: 24px 24px 0 0 !important;
+    }
+    
+    .cw-embedded .header-bg-gradient,
+    .cw-embedded .header-shine {
+        border-radius: 24px 24px 0 0 !important;
+    }
 }
 
 @media (max-width: 360px) {
