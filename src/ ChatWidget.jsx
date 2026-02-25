@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { User, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import Logo from './img/logo.jpg';
 import TriggerIcon from './img/imag1.webp';
 import './ChatWidget.css';
@@ -35,11 +35,10 @@ const parseResponse = (originalText) => {
 // Detect if running inside an iframe (embed mode)
 const isEmbedded = () => {
     try {
-        // Check URL param OR if we're in an iframe
         const params = new URLSearchParams(window.location.search);
         return params.get('embed') === 'true' || window.self !== window.top;
     } catch (e) {
-        return true; // If we can't access top, we're in a cross-origin iframe
+        return true;
     }
 };
 
@@ -57,7 +56,7 @@ const notifyParent = (type, data = {}) => {
 export default function ChatWidget() {
     const embedded = isEmbedded();
 
-    // In embed mode, widget is always "open" (parent controls visibility)
+    // In embed mode, widget is always "open" (parent controls visibility via iframe)
     const [open, setOpen] = useState(embedded);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -73,6 +72,7 @@ export default function ChatWidget() {
         let session = localStorage.getItem("chat_session_id") || generateUUID();
         localStorage.setItem("chat_session_id", session);
         setSessionId(session);
+
         let deviceId = localStorage.getItem("chat_device_mac_id") || generateUUID();
         localStorage.setItem("chat_device_mac_id", deviceId);
         setMacId(deviceId);
@@ -81,7 +81,7 @@ export default function ChatWidget() {
         if (embedded) {
             notifyParent("HTA_CHAT_READY");
         }
-    }, []);
+    }, [embedded]);
 
     // Listen for messages from parent (embed mode)
     useEffect(() => {
@@ -109,16 +109,21 @@ export default function ChatWidget() {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [chatLog, loading]);
 
+    // Toggle for standalone mode
     const toggleWidget = () => {
         if (!open && chatLog.length === 0) setActiveTab("home");
-        setOpen(!open);
+        setOpen((prev) => !prev);
     };
 
+    // Close handler — works differently for embed vs standalone
     const handleClose = () => {
         if (embedded) {
-            // Tell parent to hide the iframe and show the trigger button
+            // Tell the parent page (embed.js) to hide the iframe and show trigger
             notifyParent("HTA_CHAT_CLOSE");
+            // NOTE: We do NOT setOpen(false) here. The parent controls visibility.
+            // The widget stays "open" inside the iframe; the iframe just gets hidden.
         } else {
+            // Standalone mode — just close
             setOpen(false);
         }
     };
@@ -156,7 +161,7 @@ export default function ChatWidget() {
 
     return (
         <div className={`cw-scope ${embedded ? 'cw-embedded' : ''}`}>
-            {/* TRIGGER BUTTON — only shown in standalone mode, NOT in iframe */}
+            {/* TRIGGER BUTTON — only in standalone mode, hidden when chat is open */}
             {!embedded && !open && (
                 <button onClick={toggleWidget} className="chat-toggle">
                     <div className="trigger-glow-bg"></div>
@@ -195,17 +200,15 @@ export default function ChatWidget() {
                                     </div>
                                     <p>Home Theater • Automation • Audio Help</p>
                                 </div>
-                                <button onClick={handleClose} className="header-close-btn">
+                                <button onClick={handleClose} className="header-close-btn" aria-label="Close chat">
                                     <X size={16} color="white" />
                                 </button>
                             </div>
-                            <div className="header-separator"></div>
                         </div>
 
                         {/* BODY */}
                         <div className="transcend-chat-body">
                             <div className="msg-row bot">
-                                {/* <div className="avatar bot-avatar"><img src={Logo} alt="T" /></div> */}
                                 <div className="bubble bot-bubble">
                                     Welcome to Transcend! 🎬<br />
                                     I'm your Theater Assistant. How can I help you create the ultimate cinematic experience at home?
@@ -250,7 +253,6 @@ export default function ChatWidget() {
                                             <div className="avatar bot-avatar"><img src={Logo} alt="T" /></div>
                                             <div className="bubble-outer bot">
                                                 <div className="bubble bot-bubble typing-container">
-                                                    <div className="cw-bubble-overlay"></div>
                                                     <div className="typing-dots">
                                                         <span></span><span></span><span></span>
                                                     </div>
@@ -278,12 +280,12 @@ export default function ChatWidget() {
                                 <button onClick={() => sendMessage()} disabled={!message.trim() || loading} className="send-button">
                                     <div className="send-btn-border"></div>
                                     <div className="send-btn-base-glow"></div>
-                                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none" className="relative z-10 translate-x-[1px]">
+                                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style={{ position: 'relative', zIndex: 10 }}>
                                         <path d="M13 1L6 8M13 1L9 13L6 8M13 1L1 5L6 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </button>
                             </div>
-                            <a href="https://www.quikrai.us/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.quikrai.us/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                                 <div className="powered-by">Powered by Quikr AI</div>
                             </a>
                         </div>
